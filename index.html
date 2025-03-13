@@ -6,6 +6,7 @@
     <title>ChatBot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
     <style>
         body {
             font-family: Arial;
@@ -279,7 +280,15 @@
             function addMessage(text, isUser) {
                 const message = document.createElement('div');
                 message.classList.add('message', isUser ? 'user-message' : 'bot-message');
-                message.textContent = text;
+                
+                // Convert Markdown to HTML
+                if (!isUser) {
+                    message.innerHTML = marked(text);
+                } else {
+                    message.innerHTML = text;
+                }
+                // message.innerHTML = text; // Use marked to convert Markdown to HTML
+                
                 chatMessages.appendChild(message);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
